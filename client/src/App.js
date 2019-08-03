@@ -1,27 +1,40 @@
 import React from 'react'
-import { Route } from 'react-router-dom'
+
+import glam, { Div } from 'glamorous'
+import { css } from 'glamor'
+import { Route, Switch, Link, Redirect } from 'react-router-dom'
 import logo from './logo.svg'
 import './App.css'
 
-const Home = () => {
-  return (
-    <p>
-      Edit <code>src/App.js</code> and save to reload.
-    </p>
-  )
-}
-
 const Posts = () => <p>Posts</p>
 
+// glamorous object for CSS
+// glam.any_HTML_element
+const AppHeader = glam.header({
+  backgroundColor: '#282c34',
+  minHeight: '100vh',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+  fontsize: 'calc(10px + 2vmin)',
+  color: 'white',
+})
 
 function App() {
   return (
-    <div className='App'>
-      <header className='App-header'>
+    <Div css={{ textAlign: 'center' }}>
+      <AppHeader>
         <img src={logo} className='App-logo' alt='logo' />
-        
-        <Route path='/' component = {Home}/>
-        <Route path='/posts' component = {Posts}/>
+
+        {/* Switch ensures both components do not render */}
+        <Switch>
+          {/* only match when the path is exactly this */}
+          {/* redirect the user to the posts page */}
+          <Redirect exact path='/' to='/posts' />
+          <Route path='/posts' component={Posts} />
+        </Switch>
+
         <a
           className='App-link'
           href='https://reactjs.org'
@@ -30,8 +43,11 @@ function App() {
         >
           Learn React
         </a>
-      </header>
-    </div>
+        {/* anchor tags to endpoints */}
+        <Link to='/'>Home</Link>
+        <Link to='/posts'>Posts</Link>
+      </AppHeader>
+    </Div>
   )
 }
 
