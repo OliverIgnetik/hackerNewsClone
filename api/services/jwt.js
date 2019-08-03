@@ -16,6 +16,7 @@ const authJwt = (req, res, next) => {
         res.statusCode = 401
         return next('Authentication failed')
       }
+      // attach the decoded information to the request
       req.decoded = decoded
       return next()
     })
@@ -34,6 +35,7 @@ const signJwt = user =>
       role: user.role,
     },
     jwtSecret,
+    // expiration of token
     { expiresIn: '1d' },
   )
 

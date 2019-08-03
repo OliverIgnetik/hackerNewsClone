@@ -31,7 +31,7 @@ const UserSchema = new Schema({
     },
   ],
 })
-
+// static method for this model
 UserSchema.statics.authenticate = (
   username,
   password,

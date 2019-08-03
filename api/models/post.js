@@ -45,7 +45,7 @@ const PostSchema = new Schema(
     toObject: { virtuals: true }
   }
 )
-
+// computed property, doesn't really exist, computation that does not store anything
 PostSchema.virtual('voteScore').get(function() {
   return this.upVotes.length - this.downVotes.length
 })

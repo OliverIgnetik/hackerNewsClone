@@ -1,8 +1,10 @@
 const express = require('express')
 
 const User = require('../models/user')
+// helper methods from jwt
 const { signJwt, verifyJwt } = require('../services/jwt')
 
+// set up api/auth
 const router = express.Router()
 
 router.post('/signup', (req, res, next) => {
@@ -12,16 +14,22 @@ router.post('/signup', (req, res, next) => {
     const userData = {
       username,
       password,
+      // don't do this in production 
+      // maybe use a check on the email
       role: username === 'admin' ? 'admin' : 'user'
     }
+    // does the user exist
     return User.count({ username })
+    // create a promise that is executable hence its thenable :) 
       .exec()
+      // use then to run once promise is resolved
       .then(num => {
         if (num > 0) {
           const error = new Error('Duplicate user')
           error.status = 400
           return next(error)
         }
+        // quicker then creating a new user and then calling user.save()
         User.create(userData, (err, user) => {
           if (err) {
             return next(err)
@@ -34,6 +42,7 @@ router.post('/signup', (req, res, next) => {
           })
         })
       })
+      // throw the error to the error handler
       .catch(next)
   }
 
@@ -55,6 +64,7 @@ router.post('/login', (req, res, next) => {
         error.status = 401
         return next(error)
       }
+      // successful login assign a token with signJwt
       const token = signJwt(user)
       return res.json({
         success: true,

@@ -1,3 +1,4 @@
+// standard express app
 const express = require('express')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
@@ -6,6 +7,7 @@ const auth = require('./routes/auth')
 const post = require('./routes/post')
 const comment = require('./routes/comment')
 
+// app is wrapped in a start function for portability 
 const start = ({
   app = express(),
   host = 'localhost',
@@ -13,10 +15,11 @@ const start = ({
   dbUri = 'mongodb://localhost/27017',
   secret,
 }) => {
+  // connect to the dbUri
   mongoose.connect(dbUri)
 
   const db = mongoose.connection
-
+  // check for connction
   db.on(
     'error',
     console.error.bind(console, 'connection error:'),
@@ -25,25 +28,30 @@ const start = ({
     // connected
   })
 
+  // middleware
   app.use(bodyParser.json())
   app.use(bodyParser.urlencoded({ extended: false }))
 
+  // routes
   app.use('/api/auth', auth)
   app.use('/api/posts', post)
   app.use('/api/comments', comment)
 
+  // 404 error 
   app.use((req, res, next) => {
     const err = new Error('File Not found')
     err.status = 404
     next(err)
   })
 
+  // middleware that is called whenever an error is encountered
   app.use((err, req, res, next) => {
     res
       .status(err.status || 500)
       .json({ message: err.message })
   })
 
+  // listen for app
   app.listen(port, () => {
     const boldBlue = text =>
       `\u001b[1m\u001b[34m${text}\u001b[39m\u001b[22m`

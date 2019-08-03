@@ -7,6 +7,7 @@ const User = require('./../models/user')
 const { authJwt } = require('../services/jwt')
 const { removeEl } = require('./../util')
 
+// get comment by the id
 router.get('/:id', (req, res, next) => {
   const { id } = req.params
   Comment.findById(id)
@@ -19,6 +20,8 @@ router.get('/:id', (req, res, next) => {
     .catch(next)
 })
 
+// create a new comment 
+// illustrates the downside of a non-relational db
 router.post('/', authJwt, (req, res, next) => {
   const { text, postId } = req.body
   const { userId } = req.decoded
@@ -29,11 +32,14 @@ router.post('/', authJwt, (req, res, next) => {
     if (err) {
       return next(err)
     }
+    // find the post that the comment belongs to
     Post.findById(postId)
       .exec()
       .then(post => {
+        // update the post
         post.comments.push(comment._id)
         post.save()
+        // update the user - lot of steps :O 
         User.findById(userId)
           .exec()
           .then(user => {
@@ -48,6 +54,7 @@ router.post('/', authJwt, (req, res, next) => {
   })
 })
 
+// delete the comment
 router.delete('/:id', authJwt, (req, res, next) => {
   const { id } = req.params
   const { userId, role } = req.decoded
@@ -57,14 +64,17 @@ router.delete('/:id', authJwt, (req, res, next) => {
       if (role !== 'admin' && userId !== String(comment.author)) {
         return next('Unauthorized to do this')
       }
+      // The user is authorized now remove the comment from the Comment collection
       comment
         .remove()
         .then(() => {
+          // delete the comment from the post
           Post.findById(comment.post)
             .exec()
             .then(post => {
               post.comments = removeEl(post.comments, comment._id)
               post.save()
+              // delete comment from the user 
               User.findById(comment.author)
                 .exec()
                 .then(user => {
@@ -82,6 +92,7 @@ router.delete('/:id', authJwt, (req, res, next) => {
     .catch(next)
 })
 
+// upvote comment
 router.post('/:id/upvote', authJwt, (req, res, next) => {
   const { id } = req.params
   const { userId } = req.decoded
@@ -103,6 +114,7 @@ router.post('/:id/upvote', authJwt, (req, res, next) => {
     .catch(next)
 })
 
+// downvote comment
 router.post('/:id/downvote', authJwt, (req, res, next) => {
   const { id } = req.params
   const { userId } = req.decoded
