@@ -1,20 +1,33 @@
 import React from 'react'
 import 'antd/dist/antd.css'
-import {Layout} from 'antd'
+import { Layout } from 'antd'
 import glam, { Div } from 'glamorous'
 import { Route, Switch, Link, Redirect } from 'react-router-dom'
-import logo from './logo.svg'
 import './App.css'
 
-// styled links with import from react router
-// you can pass in the link as the indicator for glam
-const StyledLink = glam(Link)({
-  color: 'white',
-  // destructure the props 
-  // color: color ~ color 
-},({color})=>({color}))
+// -----------------COMPONENTS ---------------------------
+const Submit = () => {
+  return <p>Submit</p>
+}
 
 const Posts = () => <p>Posts</p>
+// -----------------STYLES ---------------------------
+// styled links with import from react router
+// you can pass in the link as the indicator for glam
+const StyledLink = glam(Link)(
+  {
+    color: 'white',
+    // destructure the props
+    // color: color ~ color
+  },
+  ({ color }) => ({ color }),
+)
+// HeaderLink adds padding to styled link
+const HeaderLink = ({ to, children }) => (
+  <Div css={{ padding: '0 10px' }}>
+    <StyledLink to={to}>{children}</StyledLink>
+  </Div>
+)
 
 // glamorous object for CSS
 const AppHeader = glam.header({
@@ -28,23 +41,43 @@ const AppHeader = glam.header({
   color: 'white',
 })
 
+// extend the styles of LayoutHeader
+const Header = glam(Layout.Header)({
+  display: 'flex',
+})
+
+// app based components
+const AppBase = glam(Layout)({
+  minHeight: '100vh',
+})
+
+const Content = glam(Layout.Content)({
+  padding: 50,
+})
+
+// -----------------STYLES ---------------------------
+
 function App() {
   return (
-    <Div css={{ textAlign: 'center' }}>
-      <AppHeader>
-        <img src={logo} className='App-logo' alt='logo' />
+    <AppBase>
+      <Header>
         {/* anchor tags to endpoints */}
-        <StyledLink to='/'>Home</StyledLink>
-        <StyledLink to='/posts'>Posts</StyledLink>
-      </AppHeader>
+        <HeaderLink to='/'>Home</HeaderLink>
+        <HeaderLink to='/submit'>Submit</HeaderLink>
+      </Header>
       {/* Switch ensures both components do not render */}
-      <Switch>
-        {/* only match when the path is exactly this */}
-        {/* redirect the user to the posts page */}
-        <Redirect exact path='/' to='/posts' />
-        <Route exact path='/posts' component={Posts} />
-      </Switch>
-    </Div>
+      <Content>
+        <Div css={{ padding: 20, backgroundColor: 'white', minHeight: 280 }}>
+          <Switch>
+            {/* only match when the path is exactly this */}
+            {/* redirect the user to the posts page */}
+            <Redirect exact path='/' to='/posts' />
+            <Route exact path='/submit' component={Submit} />
+            <Route exact path='/Posts' component={Posts} />
+          </Switch>
+        </Div>
+      </Content>
+    </AppBase>
   )
 }
 
