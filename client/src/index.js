@@ -1,6 +1,8 @@
 import React from 'react'
 
-import { createStore } from 'redux'
+import postsReducer from './reducers/posts/reducer'
+import commentsReducer from './reducers/comments/reducer'
+import { createStore, combineReducers } from 'redux'
 // gives powers to the app
 import { BrowserRouter } from 'react-router-dom'
 import ReactDOM from 'react-dom'
@@ -8,26 +10,20 @@ import './index.css'
 import App from './App'
 import * as serviceWorker from './serviceWorker'
 
-// reducer
-const reducer = (state, action) => {
-  if (action.type === 'increment') {
-    const { value } = state
-    // copy the state with a spread
-    return { ...state, value: value + action.value }
-  }
-  if (action.type === 'decrement') {
-    const { value } = state
-    // copy the state with a spread
-    return { ...state, value: value - action.value }
-  }
-  return state
-}
+// combine reducers
+const reducer = combineReducers({
+  posts: postsReducer,
+  comments:commentsReducer,
+})
 
 // createStore with initial state
-const store = createStore(reducer, {})
+const store = createStore(
+  reducer,
+  { counter: { value: 10 } },
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
+)
 
-console.log({store});
-
+console.log({ store })
 
 ReactDOM.render(
   <BrowserRouter>
