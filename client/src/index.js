@@ -6,6 +6,7 @@ import './index.css'
 import App from './App'
 import * as serviceWorker from './serviceWorker'
 
+// simple reducer
 const numbers = [1,2,3]
 const sum = numbers.reduce((acc,value)=>{
     console.log({acc,value})
