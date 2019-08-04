@@ -6,6 +6,14 @@ import './index.css'
 import App from './App'
 import * as serviceWorker from './serviceWorker'
 
+const numbers = [1,2,3]
+const sum = numbers.reduce((acc,value)=>{
+    console.log({acc,value})
+    return acc + value
+},0)
+
+console.log({sum})
+
 ReactDOM.render(
   <BrowserRouter>
     <App />
