@@ -1,5 +1,6 @@
 import { connect } from 'react-redux'
 import PostsPage from '../components/PostsPage'
+import { receivePosts } from '../reducers/posts/actions'
 
 const mapStateToProps = state => {
   const {
@@ -10,6 +11,15 @@ const mapStateToProps = state => {
   }
 }
 
-const enhancer = connect(mapStateToProps)
+const mapDispatchToProps = dispatch => {
+  return {
+    receivePosts: posts => dispatch(receivePosts(posts)),
+  }
+}
+
+const enhancer = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)
 
 export default enhancer(PostsPage)

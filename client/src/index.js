@@ -13,10 +13,6 @@ import './index.css'
 import App from './App'
 import * as serviceWorker from './serviceWorker'
 
-fetchApi({url:'/posts'}).then(res =>
-  console.log({res}),
-)
-
 // combine reducers
 const reducer = combineReducers({
   posts: postsReducer,
@@ -28,6 +24,20 @@ const store = createStore(
   reducer,
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
 )
+
+// fetchApi({ url: '/posts' }).then(res =>
+//   store.dispatch({
+//     type: 'RECEIVE_POSTS',
+//     posts: res.data.posts,
+//   }),
+// )
+
+/*   
+this.props.dispatch({
+      type: 'RECEIVE_POSTS',
+      posts: samplePosts,
+})
+*/
 
 ReactDOM.render(
   // make the app aware of the store

@@ -65,7 +65,7 @@ const Post = props => {
         </Div>
         <Div css={{ fontWeight: 'light', fontSize: 12 }}>
           {voteScore || 0} points | Posted by{``}
-          {author} | {DateTime.fromISO(createdAt).toLocaleString()} |{' '}
+          {author.username} | {DateTime.fromISO(createdAt).toLocaleString()} |{' '}
           <DeleteButton onClick={() => showDeleteConfirm(title)}>
             Delete
           </DeleteButton>
