@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Div } from 'glamorous'
-
+import Post from './Post'
 
 // samplePosts
 const samplePosts = [
@@ -38,7 +38,7 @@ class PostsPage extends Component {
     return (
       <Div>
         {posts.map(post => (
-          <Div key={post._id}>{post.text}</Div>
+          <Post key={post._id} post = {post}></Post>
         ))}
       </Div>
     )
