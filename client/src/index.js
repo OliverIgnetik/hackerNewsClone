@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { fetchApi } from './reducers/api'
+
 import { Provider } from 'react-redux'
 import postsReducer from './reducers/posts/reducer'
 import commentsReducer from './reducers/comments/reducer'
@@ -10,6 +12,10 @@ import ReactDOM from 'react-dom'
 import './index.css'
 import App from './App'
 import * as serviceWorker from './serviceWorker'
+
+fetchApi({url:'/posts'}).then(res =>
+  console.log({res}),
+)
 
 // combine reducers
 const reducer = combineReducers({
