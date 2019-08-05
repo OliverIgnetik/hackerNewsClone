@@ -1,7 +1,7 @@
 import { Route, Switch, Redirect } from 'react-router-dom'
 import React from 'react'
 import NewPostPage from './NewPostPage'
-import PostsPage from './PostsPage'
+import PostsPage from './../containers/PostsPage'
 const Routes = () => (
   <Switch>
     {/* only match when the path is exactly this */}

@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { Div } from 'glamorous'
-import { connect } from 'react-redux'
 
+
+// samplePosts
 const samplePosts = [
   {
     _id: '5ad3d976f0147b0fd0e5da91',
@@ -25,7 +26,7 @@ const samplePosts = [
   },
 ]
 
-class Posts extends Component {
+class PostsPage extends Component {
   componentDidMount() {
     this.props.dispatch({
       type: 'RECEIVE_POSTS',
@@ -44,13 +45,4 @@ class Posts extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  const { posts: { posts } } = state
-  return {
-    posts: posts || [],
-  }
-}
-
-const enhancer = connect(mapStateToProps)
-
-export default enhancer(Posts)
+export default PostsPage
