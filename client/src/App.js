@@ -1,8 +1,11 @@
 import React, { Component } from 'react'
+
+import {connect} from 'react-redux'
 import 'antd/dist/antd.css'
 import { Layout } from 'antd'
 import glam, { Div } from 'glamorous'
 import { Route, Switch, Link, Redirect } from 'react-router-dom'
+
 import './App.css'
 
 // -----------------COMPONENTS ---------------------------
@@ -79,5 +82,7 @@ class App extends Component {
     )
   }
 }
+// connect component to the store
+const enhancer = connect()
 
-export default App
+export default enhancer(App)

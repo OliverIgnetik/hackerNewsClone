@@ -1,5 +1,6 @@
 import React from 'react'
 
+import { Provider } from 'react-redux'
 import postsReducer from './reducers/posts/reducer'
 import commentsReducer from './reducers/comments/reducer'
 import { createStore, combineReducers } from 'redux'
@@ -56,9 +57,12 @@ setTimeout(() => {
 }, 1500)
 
 ReactDOM.render(
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>,
+  // make the app aware of the store
+  <Provider store={store}>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </Provider>,
   document.getElementById('root'),
 )
 
