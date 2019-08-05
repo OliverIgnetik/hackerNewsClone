@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import PostsPage from '../components/PostsPage'
-import { receivePosts } from '../reducers/posts/actions'
-
+import { receivePosts, requestPosts } from '../reducers/posts/actions'
+import { fetchApi } from '../reducers/api'
 const mapStateToProps = state => {
   const {
     posts: { posts },
@@ -14,6 +14,9 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     receivePosts: posts => dispatch(receivePosts(posts)),
+    requestPosts: () => {
+      requestPosts(dispatch)
+    },
   }
 }
 
