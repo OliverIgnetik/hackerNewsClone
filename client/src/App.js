@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import 'antd/dist/antd.css'
 import { Layout } from 'antd'
 import glam, { Div } from 'glamorous'
@@ -13,9 +13,53 @@ const Submit = () => {
   return <p>Submit</p>
 }
 
-const Posts = ({ posts, comments }) => (
-  <Div>{JSON.stringify({ posts, comments })}</Div>
-)
+const samplePosts = [
+  {
+    _id: '5ad3d976f0147b0fd0e5da91',
+    comments: ['5ad3d986f0147b0fd0e5da92'],
+    upVotes: [],
+    downVotes: [],
+    title: 'admin post',
+    author: '5ad3d96cf0147b0fd0e5da90',
+    text: 'admin post',
+    createdAt: '2018-04-15T23:00:06.026Z',
+  },
+  {
+    _id: '5ad3d976f0147b0fd0e5da91',
+    comments: ['5ad3d986f0147b0fd0e5da92'],
+    upVotes: [],
+    downVotes: [],
+    title: 'user post',
+    author: '5ad3d96cf0147b0fd0e5da90',
+    text: 'user post',
+    createdAt: '2018-04-15T23:00:06.026Z',
+  },
+]
+
+class Posts extends Component {
+  componentDidMount() {
+    console.log('posts component mounted', this.props.posts)
+    // dispatch once mounted
+    this.props.dispatch({ type: 'RECEIVE_POSTS', posts: samplePosts })
+  }
+  render() {
+    const {posts} = this.props 
+    console.log('rendering posts', posts);
+    return <Div />
+  }
+}
+// map state to props 
+const mapStateToProps = state => {
+  // double destructure
+  const {posts:{posts}} = state
+  return {
+    posts: posts || []
+  }
+}
+
+const enhancer = connect(mapStateToProps)
+const ConnectedPosts = enhancer(Posts)
+
 // -----------------STYLES ---------------------------
 // styled links with import from react router
 // you can pass in the link as the indicator for glam
@@ -49,12 +93,7 @@ const Content = glam(Layout.Content)({
 })
 
 class App extends Component {
-  state = {
-    posts: [{ id: 1, title: '1st post', text: 'Hello world', comments: [1] }],
-    comments: [{ id: 1, postId: 1, text: '1st comment' }],
-  }
   render() {
-    const { posts, comments } = this.state
     return (
       <AppBase>
         <Header>
@@ -73,7 +112,7 @@ class App extends Component {
               <Route
                 exact
                 path='/Posts'
-                render={props => <Posts posts={posts} comments={comments} />}
+                render={props => <ConnectedPosts {...props} />}
               />
             </Switch>
           </Div>
@@ -82,7 +121,5 @@ class App extends Component {
     )
   }
 }
-// connect component to the store
-const enhancer = connect()
 
-export default enhancer(App)
+export default App
