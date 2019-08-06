@@ -29,6 +29,7 @@ const Header = () => (
     {/* anchor tags to endpoints */}
     <HeaderLink to='/'>Home</HeaderLink>
     <HeaderLink to='/submit'>Submit</HeaderLink>
+    <HeaderLink to='/login'>Login</HeaderLink>
   </HeaderBase>
 )
 
