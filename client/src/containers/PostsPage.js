@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import PostsPage from '../components/PostsPage'
 import { receivePosts, requestPosts } from '../reducers/posts/actions'
-import { fetchApi } from '../reducers/api'
+
 const mapStateToProps = state => {
   const {
     posts: { posts },
