@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { fetchApi } from './reducers/api'
+import authReducer from './reducers/auth/reducer'
 
 import { Provider } from 'react-redux'
 import postsReducer from './reducers/posts/reducer'
@@ -17,6 +17,7 @@ import * as serviceWorker from './serviceWorker'
 const reducer = combineReducers({
   posts: postsReducer,
   comments: commentsReducer,
+  posts : authReducer
 })
 
 // createStore with initial state
@@ -24,20 +25,6 @@ const store = createStore(
   reducer,
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
 )
-
-// fetchApi({ url: '/posts' }).then(res =>
-//   store.dispatch({
-//     type: 'RECEIVE_POSTS',
-//     posts: res.data.posts,
-//   }),
-// )
-
-/*   
-this.props.dispatch({
-      type: 'RECEIVE_POSTS',
-      posts: samplePosts,
-})
-*/
 
 ReactDOM.render(
   // make the app aware of the store
