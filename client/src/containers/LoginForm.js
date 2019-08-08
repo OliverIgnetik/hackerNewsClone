@@ -5,7 +5,7 @@ import { loginUser } from './../reducers/auth/actions'
 
 const mapDispatchToProps = dispatch => {
   return {
-    handleSubmit: data => loginUser(dispatch, data),
+    handleSubmit: (data, cb) => loginUser(dispatch, data, cb),
   }
 }
 

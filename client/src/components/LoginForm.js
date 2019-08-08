@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import glam, { Div, H3 } from 'glamorous'
+import glam from 'glamorous'
 import { Button, Form, Icon, Input } from 'antd'
 
 const StyledForm = glam(Form)({ maxWidth: 300 })
@@ -9,16 +9,26 @@ class LoginForm extends Component {
   handleSubmit = e => {
     console.log({ e })
     e.preventDefault()
-    const { form, handleSubmit } = this.props
+    const { form, handleSubmit,redirect } = this.props
     form.validateFields((err, values) => {
       if (!err) {
-        handleSubmit(values)
+        handleSubmit(values, err => {
+          if (err) {
+            return form.setFields({
+              password: {
+                value: values.password,
+                errors: [new Error(err.response.data.message)],
+              },
+            })
+          }
+          redirect()
+        })
       }
     })
   }
 
   render() {
-    const { form } = this.props
+    const { form,type } = this.props
     console.log({ form })
     const { getFieldDecorator } = form
     return (
@@ -32,10 +42,7 @@ class LoginForm extends Component {
               },
             ],
           })(
-            <Input
-              prefix={<LoginIcon type="user" />}
-              placeholder="Username"
-            />,
+            <Input prefix={<LoginIcon type='user' />} placeholder='Username' />,
           )}
         </Form.Item>
         <Form.Item>
@@ -48,16 +55,16 @@ class LoginForm extends Component {
             ],
           })(
             <Input
-              prefix={<LoginIcon type="lock" />}
-              placeholder="Password"
-              type="password"
+              prefix={<LoginIcon type='lock' />}
+              placeholder='Password'
+              type='password'
             />,
           )}
         </Form.Item>
         <Form.Item>
-          <Button type="primary" htmlType="submit">
-            Login
-          </Button>
+          <Button type='primary' htmlType='submit'>
+            {type =='login'?'Login':'Signup'}
+            </Button>
         </Form.Item>
       </StyledForm>
     )

@@ -1,7 +1,6 @@
 import React from 'react'
-
+import {authUser} from './reducers/auth/actions'
 import authReducer from './reducers/auth/reducer'
-
 import { Provider } from 'react-redux'
 import postsReducer from './reducers/posts/reducer'
 import commentsReducer from './reducers/comments/reducer'
@@ -25,6 +24,8 @@ const store = createStore(
   reducer,
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
 )
+
+authUser(store.dispatch)
 
 ReactDOM.render(
   // make the app aware of the store
