@@ -6,9 +6,16 @@ const FormIcon = glam(Icon)({
   color: 'rgba(0,0,0,0.25)',
 })
 const StyledForm = glam(Form)({ maxWidth: 300 })
+
 class NewPostForm extends Component {
   handleSubmit = e => {
     e.preventDefault()
+    const { form, handleSubmit } = this.props
+    form.validateFields((err, values) => {
+      if (!err) {
+        handleSubmit(values, err => {})
+      }
+    })
   }
   render() {
     const { form } = this.props
@@ -32,7 +39,9 @@ class NewPostForm extends Component {
           )}
         </Form.Item>
         <Form.Item>
-            <Button type='primary' htmlType='submit'>Submit</Button>
+          <Button type='primary' htmlType='submit'>
+            Submit
+          </Button>
         </Form.Item>
       </StyledForm>
     )

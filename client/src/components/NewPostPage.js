@@ -1,7 +1,7 @@
 import React from 'react'
 import { Div, H3 } from 'glamorous'
 
-import NewPostForm from './NewPostForm'
+import NewPostForm from '../containers/NewPostForm'
 
 const NewPostPage = () => (
   <Div>
