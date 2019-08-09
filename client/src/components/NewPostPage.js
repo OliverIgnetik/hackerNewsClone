@@ -3,10 +3,12 @@ import { Div, H3 } from 'glamorous'
 
 import NewPostForm from '../containers/NewPostForm'
 
-const NewPostPage = () => (
+const NewPostPage = ({history}) => (
   <Div>
     <H3>Add a new post</H3>
-    <NewPostForm/>
+    <NewPostForm
+      redirect={postId=>history.push(`/posts/${postId}`)}
+    />
   </Div>
 )
 

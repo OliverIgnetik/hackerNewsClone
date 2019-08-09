@@ -1,4 +1,4 @@
-import { RECEIVE_POSTS } from './actions'
+import { RECEIVE_POSTS,RECEIVE_POST } from './actions'
 
 // postReducer
 const initialState = {
@@ -9,6 +9,11 @@ export default (state = initialState, action) => {
     case RECEIVE_POSTS: {
       const { posts } = action
       return { ...state, posts }
+    }
+
+    case RECEIVE_POST: {
+      const { post } = action
+      return { ...state, post }
     }
     default:
       return state

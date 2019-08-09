@@ -10,10 +10,15 @@ const StyledForm = glam(Form)({ maxWidth: 300 })
 class NewPostForm extends Component {
   handleSubmit = e => {
     e.preventDefault()
-    const { form, handleSubmit } = this.props
+    const { form, handleSubmit,redirect } = this.props
     form.validateFields((err, values) => {
       if (!err) {
-        handleSubmit(values, err => {})
+        handleSubmit(values, (err,res) => {
+          if (err){
+            return console.error(err)
+          }
+          redirect(res.data.post._id)
+        })
       }
     })
   }
