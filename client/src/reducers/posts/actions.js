@@ -11,8 +11,9 @@ export const receivePosts = posts => ({
 
 export const requestPosts = dispatch => {
   dispatch({ type: REQUEST_POSTS })
-  fetchApi({ url: '/posts' }).then(res =>
-    dispatch(receivePosts(res.data.posts)),
+  fetchApi({ url: '/posts' }).then(res =>{
+    dispatch(receivePosts(res.data.posts))
+  }
   )
 }
 

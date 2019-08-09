@@ -9,6 +9,7 @@ class PostsPage extends Component {
   }
   render() {
     const { posts } = this.props
+    
     return (
       <Div>
         {posts.map(post => (

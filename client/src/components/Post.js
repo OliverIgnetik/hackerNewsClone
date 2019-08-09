@@ -52,7 +52,7 @@ const Post = props => {
     voteScore = 0,
     createdAt,
   } = post
-  const postUrl = `/posts/${post._id}`
+  const postUrl = `/posts/${postId}`
   return (
     <Div css={{ display: 'flex', alignItems: 'center' }}>
       <PostColumn>

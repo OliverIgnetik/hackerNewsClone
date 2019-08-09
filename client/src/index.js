@@ -16,7 +16,7 @@ import * as serviceWorker from './serviceWorker'
 const reducer = combineReducers({
   posts: postsReducer,
   comments: commentsReducer,
-  posts : authReducer
+  auth : authReducer
 })
 
 // createStore with initial state

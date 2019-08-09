@@ -7,7 +7,7 @@ const mapStateToProps = state => {
     posts: { posts },
   } = state
   return {
-    posts: posts || [],
+    posts: posts||[],
   }
 }
 

@@ -7,7 +7,6 @@ const LoginIcon = glam(Icon)({ color: 'rgba(0,0,0,0.25)' })
 
 class LoginForm extends Component {
   handleSubmit = e => {
-    console.log({ e })
     e.preventDefault()
     const { form, handleSubmit,redirect } = this.props
     form.validateFields((err, values) => {
@@ -29,7 +28,6 @@ class LoginForm extends Component {
 
   render() {
     const { form,type } = this.props
-    console.log({ form })
     const { getFieldDecorator } = form
     return (
       <StyledForm onSubmit={this.handleSubmit}>
@@ -63,7 +61,7 @@ class LoginForm extends Component {
         </Form.Item>
         <Form.Item>
           <Button type='primary' htmlType='submit'>
-            {type =='login'?'Login':'Signup'}
+            {type ==='login'?'Login':'Signup'}
             </Button>
         </Form.Item>
       </StyledForm>

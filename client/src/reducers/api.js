@@ -6,7 +6,7 @@ const baseUrl = '/api'
 // axios just makes fetching alot easier
 // fetchApi ({url:'/posts',data:{}}).then(result=>{})
 // fetch({body:JSON.stringfy(...)}).then(res=>res.json()).then()
-export const fetchApi = (opts={}) => {
+export const fetchApi = opts => {
     // JWT token
     const headers = {} 
     const token = cookie.get('token')
