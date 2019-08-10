@@ -27,7 +27,15 @@ const showDeleteConfirm = (
   })
 }
 
-const DeleteButton = glam.span({ cursor: 'pointer' })
+const DeleteButton = glam.span({
+  cursor: 'pointer',
+  color: 'white',
+  background:'red',
+  border: '1px solid red',
+  borderRadius: 3,
+  padding: 2,
+  marginLeft:10
+})
 
 const CommentColumn = glam.div({
   display: 'flex',
@@ -89,7 +97,7 @@ const Comment = props => {
         <Div css={{ fontWeight: 'light', fontSize: 12 }}>
           {voteScore || 0} points | Commented by{' '}
           {author.username} |{' '}
-          {DateTime.fromISO(createdAt).toLocaleString()} |{' '}
+          {DateTime.fromISO(createdAt).toLocaleString()} 
           {canDelete && (
             <DeleteButton
               onClick={() =>

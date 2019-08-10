@@ -29,7 +29,12 @@ const showDeleteConfirm = (postTitle, postId, deletePost, redirect) => {
 // define Delete button
 const DeleteButton = glam.span({
   cursor: 'pointer',
-  color: 'red',
+  color: 'white',
+  background:'red',
+  border: '1px solid red',
+  borderRadius: 3,
+  padding: 2,
+  marginLeft: 10,
 })
 
 // PostColumn with flex column
@@ -65,7 +70,7 @@ const Post = props => {
     canVote,
     canUpvote,
     canDownvote,
-    votePost
+    votePost,
   } = props
 
   const {
@@ -74,8 +79,10 @@ const Post = props => {
     title,
     text,
     author,
+    comments,
     voteScore = 0,
     createdAt,
+    url,
   } = post
   const postUrl = `/posts/${postId}`
   const redirect = () => history.push('/posts')
@@ -97,12 +104,19 @@ const Post = props => {
       )}
       <PostColumn>
         <Div>
-          <Link to={postUrl}>{title}</Link>
+          {url ? (
+            <a href={url} target='_blank'>
+              {title}
+            </a>
+          ) : (
+            <Link to={postUrl}>{title}</Link>
+          )}
         </Div>
         <Div css={{ fontWeight: 'light', fontSize: 12 }}>
-          {voteScore || 0} points | Posted by{` `}
-          {author.username} | {DateTime.fromISO(createdAt).toLocaleString()}
-          {` `}|{` `}
+          {voteScore || 0} points |{' '}
+          <Link to={postUrl}>{comments.length} comments | </Link>
+          Posted by {author.username} |{' '}
+          {DateTime.fromISO(createdAt).toLocaleString()}
           {canDelete && (
             <DeleteButton
               onClick={() =>
