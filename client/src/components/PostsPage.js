@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Div } from 'glamorous'
-import Post from './Post'
+import Post from './../containers/Post'
 
 
 class PostsPage extends Component {

@@ -4,11 +4,11 @@ import { Link } from 'react-router-dom'
 import { DateTime } from 'luxon'
 import { Icon, Modal } from 'antd'
 
-// confirm button from Modal 
+// confirm button from Modal
 const { confirm } = Modal
 
-// delete posts confirmation 
-const showDeleteConfirm = postTitle => {
+// delete posts confirmation
+const showDeleteConfirm = (postTitle, postId, deletePost, redirect) => {
   confirm({
     title: 'Are you sure you want to delete this post?',
     content: `${postTitle} will be deleted!`,
@@ -16,13 +16,21 @@ const showDeleteConfirm = postTitle => {
     okType: 'danger',
     cancelText: 'No',
     onOk() {
-      console.log('Deleted!')
+      deletePost(postId, err => {
+        if (err) {
+          return console.error(err)
+        }
+        redirect()
+      })
     },
   })
 }
 
 // define Delete button
-const DeleteButton = glam.span({ cursor: 'pointer' })
+const DeleteButton = glam.span({
+  cursor: 'pointer',
+  color: 'red',
+})
 
 // PostColumn with flex column
 const PostColumn = glam.div({
@@ -31,18 +39,35 @@ const PostColumn = glam.div({
   marginRight: 10,
 })
 
-// vote icon with hover
-const VoteIcon = glam(Icon)({
-  color: 'rgba(0,0,0,0.05)',
-  cursor: 'pointer',
-  ':hover': {
-    color: 'rgba(0,0,0,0.5)',
+const VoteIcon = glam(Icon)(
+  {
+    color: 'rgba(0,0,0,0.25)',
+    cursor: 'pointer',
+    ':hover': {
+      color: 'rgba(0,0,0,0.5)',
+    },
   },
-})
+  ({ inactive }) =>
+    inactive && {
+      color: 'white',
+      cursor: 'not-allowed',
+      ':hover': { color: 'white' },
+    },
+)
 
 // define post
 const Post = props => {
-  const { post } = props
+  const {
+    post,
+    deletePost,
+    canDelete,
+    history,
+    canVote,
+    canUpvote,
+    canDownvote,
+    votePost
+  } = props
+
   const {
     //New destructured values
     _id: postId,
@@ -53,22 +78,40 @@ const Post = props => {
     createdAt,
   } = post
   const postUrl = `/posts/${postId}`
+  const redirect = () => history.push('/posts')
   return (
     <Div css={{ display: 'flex', alignItems: 'center' }}>
-      <PostColumn>
-        <VoteIcon type='caret-up' />
-        <VoteIcon type='caret-down' />
-      </PostColumn>
+      {canVote && (
+        <PostColumn>
+          <VoteIcon
+            onClick={() => votePost(postId, 1)}
+            inactive={!canUpvote}
+            type='caret-up'
+          />
+          <VoteIcon
+            onClick={() => votePost(postId, -1)}
+            inactive={!canDownvote}
+            type='caret-down'
+          />
+        </PostColumn>
+      )}
       <PostColumn>
         <Div>
           <Link to={postUrl}>{title}</Link>
         </Div>
         <Div css={{ fontWeight: 'light', fontSize: 12 }}>
-          {voteScore || 0} points | Posted by{``}
-          {author.username} | {DateTime.fromISO(createdAt).toLocaleString()} |{' '}
-          <DeleteButton onClick={() => showDeleteConfirm(title)}>
-            Delete
-          </DeleteButton>
+          {voteScore || 0} points | Posted by{` `}
+          {author.username} | {DateTime.fromISO(createdAt).toLocaleString()}
+          {` `}|{` `}
+          {canDelete && (
+            <DeleteButton
+              onClick={() =>
+                showDeleteConfirm(title, postId, deletePost, redirect)
+              }
+            >
+              Delete
+            </DeleteButton>
+          )}
         </Div>
       </PostColumn>
     </Div>

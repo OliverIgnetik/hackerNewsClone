@@ -5,6 +5,23 @@ export const REQUEST_POSTS = 'REQUEST_POSTS'
 export const SUBMIT_POST = 'SUBMIT_POST'
 export const REQUEST_POST = 'REQUEST_POST'
 export const RECEIVE_POST = 'RECEIVE_POST'
+export const DELETE_POST = 'DELETE_POST'
+export const VOTE_POST = 'VOTE_POST'
+
+export const deletePost = (
+  dispatch,
+  postId,
+  cb = () => {},
+) => {
+  dispatch({ type: DELETE_POST })
+  fetchApi({
+    url: `/posts/${postId}`,
+    method: 'DELETE',
+  })
+    .then(() => requestPosts(dispatch))
+    .then(() => cb(null))
+    .catch(cb)
+}
 
 export const receivePosts = posts => ({
   type: RECEIVE_POSTS,
@@ -50,4 +67,17 @@ export const submitPost = (dispatch, data, cb) => {
     .then(res => cb(null, res))
     .then(() => requestPosts(dispatch))
     .catch(cb)
+}
+
+export const votePost = (dispatch, postId, value) => {
+  dispatch({ type: VOTE_POST })
+  const url = `/posts/${postId}/${
+    value === 1 ? 'upvote' : 'downvote'
+  }`
+  fetchApi({
+    url,
+    method: 'POST',
+  })
+    .then(res => requestPost(dispatch, postId))
+    .then(() => requestPosts(dispatch))
 }
