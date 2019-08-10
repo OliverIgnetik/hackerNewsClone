@@ -24,12 +24,19 @@ const HeaderBase = glam(Layout.Header)({
   display: 'flex',
 })
 
-const Header = () => (
+const Header = ({ isLoggedIn, logout }) => (
   <HeaderBase>
-    {/* anchor tags to endpoints */}
-    <HeaderLink to='/'>Home</HeaderLink>
-    <HeaderLink to='/submit'>Submit</HeaderLink>
-    <HeaderLink to='/login'>Login</HeaderLink>
+    <HeaderLink to="/">Home</HeaderLink>
+    {isLoggedIn && (
+      <HeaderLink to="/submit">Submit</HeaderLink>
+    )}
+    {isLoggedIn ? (
+      <HeaderLink to="/posts">
+        <Div onClick={logout}>Logout</Div>
+      </HeaderLink>
+    ) : (
+      <HeaderLink to="/login">Login</HeaderLink>
+    )}
   </HeaderBase>
 )
 

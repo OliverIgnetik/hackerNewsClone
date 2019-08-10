@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Routes from './components/Routes'
-import Header from './components/Header'
+import Header from './containers/Header'
 import 'antd/dist/antd.css'
 import { Layout } from 'antd'
 import glam, { Div } from 'glamorous'
